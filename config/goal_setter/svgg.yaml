@@ -1,0 +1,31 @@
+
+
+_target_: algorithm.goal_setter.svgg.SVGG.SVGG
+
+nG: ${nG}
+num_traj: 10
+goals_init: 5000 #5000
+num_of_goals: 1000 #1000
+LR_ANOMALY: 1e-3 
+LR_SKILLS: 1e-3
+LR_SVGG: 1e-3
+BATCH_R: 100
+BATCH_S: 100
+SKILLS_ITTR: 200 #200
+ALPHA: 2.0
+BETA_P: 2.0
+TEMPERATURE: 0.1
+NUM_SVGD_STEPS: 10
+anomaly_model:
+  _target_: algorithm.goal_setter.svgg.anomalygoal.AnomalyDetector
+  input_dim: ${nG}
+  hidden_layers: [1024, 1024]
+  log_frequency: 1
+skills_model:
+  _target_: algorithm.goal_setter.svgg.skillspredictor.SkillsPredictorModel
+  nG: ${nG}
+  layers: [1024, 1024]  
+  log_frequency: 1
+device: ${device}
+debug: ${debug}
+particle_eval_frequency: ${particle_eval_frequency}

@@ -1,0 +1,39 @@
+defaults:
+    - agent: sac
+    - goal_setter: svgg
+    - _self_
+
+env: FetchPickAndPlace-v4
+nS: ???
+nG: ???
+nA: ???
+name: robotic_control
+project_name: goal_RL_robotic_control
+# this needs to be specified manually
+experiment: test_exp
+
+num_train_steps: 1e5  #
+replay_buffer_capacity: ${num_train_steps}
+num_traj: 10   #number of sampling trajectories
+num_seed_steps: 1e5   #should be same as num_train_steps
+
+eval_frequency: 2 #   #number of episodes after which to run eval
+num_eval_episodes: 2
+
+
+num_of_epochs: 100 #number of epochs to run train 
+device:  ${cuda_if_available:}
+
+# logger
+log_frequency: 100 #
+particle_eval_frequency: 100 #
+
+# For Reproducibility 
+seed: 1
+
+#debugging
+debug: False
+
+hydra:
+    run:
+        dir: "./exp/${now:%Y.%m.%d}/${now:%H%M}_${name}_${experiment}"
