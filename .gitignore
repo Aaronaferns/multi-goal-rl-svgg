@@ -1,0 +1,92 @@
+# ----------------------------
+# Python
+# ----------------------------
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.pyo
+*.pkl
+*.pt
+*.pth
+*.npz
+*.npy
+
+# ----------------------------
+# Virtual environments
+# ----------------------------
+venv/
+.env/
+.env*/
+.venv/
+.venv*/
+*.env
+pip-wheel-metadata/
+*.egg-info/
+*.egg/
+build/
+dist/
+
+# ----------------------------
+# Jupyter / notebooks
+# ----------------------------
+.ipynb_checkpoints/
+*.ipynb_convert/
+*/.ipynb_checkpoints/
+
+# ----------------------------
+# Cache & logs
+# ----------------------------
+.cache/
+*.log
+logs/
+wandb/
+lightning_logs/
+wandb/
+tb_logs/
+output/
+outputs/
+tmp/
+temp/
+checkpoints/
+experiments/
+runs/
+results/
+exp/
+
+# ----------------------------
+# Video / rendering outputs
+# ----------------------------
+*.mp4
+*.avi
+*.mov
+*.gif
+videos/
+recordings/
+media/
+
+# ----------------------------
+# IDE / Editor settings
+# ----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ----------------------------
+# OS-specific files
+# ----------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----------------------------
+# Other data files (optional)
+# ----------------------------
+data/
+datasets/
+raw_data/
+*.csv
+*.json
+*.yaml
+*.yml
