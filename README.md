@@ -1,5 +1,5 @@
 # Multi-Goal Reinforcement Learning with SVGG & SAC
-[View full interactive W&B Report →](https://api.wandb.ai/links/slayers/b6x4lxow)
+
 
 #### 
 
