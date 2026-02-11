@@ -4,13 +4,7 @@ import numpy as np
 # Registering once is enough
 gym.register_envs(gymnasium_robotics)
 
-example_map = [
-    [1, 1, 1, 1, 1],
-    [1, 'C', 0, 'C', 1],
-    [1, 1, 1, 1, 1]
-]
-
-env = gym.make('AntMaze_Large-v5', render_mode = "human")
+env = gym.make('AntMaze_Large-v5')
 
 n_episodes = 5
 for ep in range(n_episodes):
@@ -23,7 +17,7 @@ for ep in range(n_episodes):
         action = env.action_space.sample() 
         
         obs, reward, terminated, truncated, info = env.step(action)
-        
+        print(info)
         done = terminated or truncated
         print(f"step = {step}, reward = {reward}")
         

@@ -14,7 +14,16 @@ OmegaConf.register_new_resolver(
     "cuda_if_available", 
     lambda: "cuda" if torch.cuda.is_available() else "cpu"
 )
+class CompatibilityWrapper(gym.Wrapper):
+    def step(self, action):
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        # Map 'success' (v5) to 'is_success' (what your code wants)
+        if 'success' in info:
+            info['is_success'] = info['success']
+        return obs, reward, terminated, truncated, info
 
+# Use it when creating your env
+# env = CompatibilityWrapper(gym.make('AntMaze_Large-v5'))
 
 @hydra.main(version_base=None, config_path='config', config_name='train')
 def main(cfg):
@@ -24,7 +33,7 @@ def main(cfg):
     
     
     
-    env = gym.make(cfg.env)
+    env = CompatibilityWrapper(env = gym.make(cfg.env))
     eval_env = gym.make(cfg.env, render_mode="rgb_array")
     
     nS = env.observation_space["observation"].shape[0] 

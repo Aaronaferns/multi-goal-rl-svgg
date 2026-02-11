@@ -11,6 +11,9 @@ from utils import wandb_log
 import gymnasium as gym
 import gymnasium_robotics
 gym.register_envs(gymnasium_robotics)
+import gymnasium as gym
+
+
 
 class GoalBasedRunner:
     def __init__(self,nS,nA,nG,env,eval_env,reward_fn, cfg):
