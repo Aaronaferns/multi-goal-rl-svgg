@@ -146,3 +146,25 @@ class SACAgent(Agent):
 
         if step % self.critic_target_update_frequency == 0:
             utils.soft_update_params(self.critic, self.critic_target,self.critic_tau)
+
+    def state_dict(self):
+        """Return state dict for checkpointing (actor, critic, target, log_alpha, optimizers)."""
+        return {
+            "actor": self.actor.state_dict(),
+            "critic": self.critic.state_dict(),
+            "critic_target": self.critic_target.state_dict(),
+            "log_alpha": self.log_alpha.detach().cpu(),
+            "actor_optimizer": self.actor_optimizer.state_dict(),
+            "critic_optimizer": self.critic_optimizer.state_dict(),
+            "log_alpha_optimizer": self.log_alpha_optimizer.state_dict(),
+        }
+
+    def load_state_dict(self, state):
+        """Load from a checkpoint state dict."""
+        self.actor.load_state_dict(state["actor"])
+        self.critic.load_state_dict(state["critic"])
+        self.critic_target.load_state_dict(state["critic_target"])
+        self.log_alpha.data = state["log_alpha"].to(self.device)
+        self.actor_optimizer.load_state_dict(state["actor_optimizer"])
+        self.critic_optimizer.load_state_dict(state["critic_optimizer"])
+        self.log_alpha_optimizer.load_state_dict(state["log_alpha_optimizer"])

@@ -10,7 +10,7 @@ nA: ???
 name: robotic_control
 project_name: goal_RL_robotic_control
 # this needs to be specified manually
-experiment: test_exp
+experiment: test
 
 num_train_steps: 1e5  #
 replay_buffer_capacity: ${num_train_steps}
@@ -19,7 +19,8 @@ num_seed_steps: 1e5   #should be same as num_train_steps
 
 eval_frequency: 2 #   #number of episodes after which to run eval
 num_eval_episodes: 2
-
+goal_setter: None
+use_hindsight: False
 
 num_of_epochs: 100 #number of epochs to run train 
 device:  ${cuda_if_available:}
@@ -33,6 +34,11 @@ seed: 1
 
 #debugging
 debug: False
+
+# Checkpointing (saved under Hydra run dir)
+checkpoint_dir: checkpoints
+checkpoint_frequency: 0   # save every N epochs (0 = only at end)
+save_final: True
 
 hydra:
     run:

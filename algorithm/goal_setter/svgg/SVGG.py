@@ -432,7 +432,29 @@ class SVGG(GoalGenerator):
     def getGoals(self):
         return self.goals
     
-    def sample_goal(self):
+    def sample_goal(self, obs=None):
         row_idx = np.random.choice(len(self.goals))
         sampled_goal = self.goals[row_idx]
         return sampled_goal
+
+    def state_dict(self):
+        """Return state dict for checkpointing (goals, models, optimizers)."""
+        return {
+            "goals": self.goals,
+            "skills_model": self.skills_model.state_dict(),
+            "anomaly_model": self.anomaly_model.state_dict(),
+            "optimizer_skills": self.optimizer_skills.state_dict(),
+            "optimizer_anomaly": self.optimizer_anomaly.state_dict(),
+            "anomaly_train_step": self.anomaly_train_step,
+            "skills_train_step": self.skills_train_step,
+        }
+
+    def load_state_dict(self, state):
+        """Load from a checkpoint state dict."""
+        self.goals = state["goals"]
+        self.skills_model.load_state_dict(state["skills_model"])
+        self.anomaly_model.load_state_dict(state["anomaly_model"])
+        self.optimizer_skills.load_state_dict(state["optimizer_skills"])
+        self.optimizer_anomaly.load_state_dict(state["optimizer_anomaly"])
+        self.anomaly_train_step = state.get("anomaly_train_step", 0)
+        self.skills_train_step = state.get("skills_train_step", 0)
