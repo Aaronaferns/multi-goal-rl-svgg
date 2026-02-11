@@ -3,7 +3,9 @@ numpy
 matplotlib
 torch
 torchvision
+mujoco
 gymnasium
 gymnasium_robotics
 hydra-core
 gymnasium[other]
+wandb

@@ -40,3 +40,33 @@ git clone https://github.com/Aaronaferns/multi-goal-rl-svgg.git
 cd multi-goal-rl-svgg
 pip install -r requirements.txt
 python train.py experiment={any name of your choice}
+```
+
+## Running on Kaggle
+
+Yes. Use a **GPU** notebook and run from the repo root so Hydra finds `config/`.
+
+1. **Clone and install** (in a notebook cell):
+   ```bash
+   !git clone https://github.com/Aaronaferns/multi-goal-rl-svgg.git
+   %cd multi-goal-rl-svgg
+   !pip install -r requirements.txt -q
+   ```
+
+2. **W&B** (optional): add `WANDB_API_KEY` in Notebook → Settings → Secrets, then:
+   ```python
+   import os
+   import wandb
+   if os.environ.get("WANDB_API_KEY"):
+       wandb.login(key=os.environ["WANDB_API_KEY"])
+   ```
+
+3. **Run training** (from repo root):
+   ```bash
+   !python train.py experiment=kaggle_run num_of_epochs=10
+   ```
+
+**Notes:**  
+- `render_mode="rgb_array"` is used for eval/videos; no display is needed.  
+- Checkpoints are saved under the Hydra run dir and (if W&B is used) uploaded to the run.  
+- Session time limits apply; use `checkpoint_frequency` and W&B to keep progress.
