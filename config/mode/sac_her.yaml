@@ -1,0 +1,2 @@
+use_goal_setter: False
+use_hindsight: True

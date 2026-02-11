@@ -17,7 +17,7 @@ class GoalBasedRunner:
         self.env = env
         self.eval_env = eval_env
         self.replay_buffer = Buffer(env,nS,nA,nG,reward_fn,cfg.replay_buffer_capacity, useHindsight=cfg.use_hindsight, debug=cfg.debug) #has buffer, R, O
-        if cfg.goal_setter: 
+        if cfg.use_goal_setter: 
             self.goal_setter = hydra.utils.instantiate(cfg.goal_setter, _recursive_ = True)
             print(type(self.goal_setter))
             self.goal_setter.setup_runtime(env, self.replay_buffer)
@@ -37,7 +37,7 @@ class GoalBasedRunner:
         state = {"epoch": epoch, "step": self.step}
         if hasattr(self.agent, "state_dict"):
             state["agent"] = self.agent.state_dict()
-        if self.cfg.goal_setter and hasattr(self.goal_setter, "state_dict"):
+        if self.cfg.use_goal_setter and hasattr(self.goal_setter, "state_dict"):
             state["goal_setter"] = self.goal_setter.state_dict()
         torch.save(state, path)
         # Always overwrite last.pt for easy resume
@@ -57,7 +57,7 @@ class GoalBasedRunner:
         state = torch.load(load_path, map_location="cpu")
         if "agent" in state and hasattr(self.agent, "load_state_dict"):
             self.agent.load_state_dict(state["agent"])
-        if "goal_setter" in state and self.cfg.goal_setter and hasattr(self.goal_setter, "load_state_dict"):
+        if "goal_setter" in state and self.cfg.use_goal_setter and hasattr(self.goal_setter, "load_state_dict"):
             self.goal_setter.load_state_dict(state["goal_setter"])
         self.step = state.get("step", self.step)
         print(f"Loaded checkpoint from {load_path} (epoch={state.get('epoch', '?')}, step={self.step})")
@@ -75,7 +75,7 @@ class GoalBasedRunner:
             obs, info = self.env.reset()
             self.agent.reset()
             # goal: use goal setter if configured, else use env's goal from reset
-            if self.cfg.goal_setter:
+            if self.cfg.use_goal_setter:
                 g = self.goal_setter.sample_goal(obs)
                 self.env.unwrapped.goal = g
             else:
@@ -127,7 +127,7 @@ class GoalBasedRunner:
         wandb_log('train/avg_reward_per_epoch', r, self.step)
         wandb_log('train/avg_tlen_per_epoch', tlen, self.step)
         #Train SVGG
-        if self.cfg.goal_setter: self.goal_setter.train(self.step)
+        if self.cfg.use_goal_setter: self.goal_setter.train(self.step)
         #improve agent
         self.agent.update(self.replay_buffer)
         print("training complete")
