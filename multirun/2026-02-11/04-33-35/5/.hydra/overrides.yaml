@@ -1,0 +1,4 @@
+- env=FetchPickAndPlace-v4
+- seed=2
+- mode=sac_her_svgg
+- num_of_epochs=1

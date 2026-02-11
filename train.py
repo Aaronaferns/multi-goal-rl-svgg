@@ -53,15 +53,22 @@ def main(cfg):
     # print("Agent config:")
     # print(OmegaConf.to_yaml(cfg.agent))
     # print("="*50)
-    wandb.init(
-        project=cfg.project_name,    # e.g., "goal_based_RL"
-        name=cfg.experiment,         # e.g., "exp_1"
-        config=OmegaConf.to_container(cfg, resolve=True),                 # log all Hydra config parameters
+    run = wandb.init(
+        project=cfg.project_name,
+        # Group by 'experiment' so the 3 seeds are grouped together in the UI
+        group=cfg.experiment, 
+        # Give each run a unique name based on its mode and seed
+        name=f"{cfg.env}_{cfg.mode}_seed{cfg.seed}",
+        config=OmegaConf.to_container(cfg, resolve=True),
+        reinit=True, 
         mode="online" if not cfg.debug else "disabled"
     )
+
     runner = GoalBasedRunner(nS, nA, nG, env, eval_env, env.unwrapped.compute_reward, cfg)
     runner.train()
-    wandb.finish()
+
+    # 2. Explicitly finish the run so the next multirun job can start a fresh one
+    run.finish()
     
 
 if __name__ == "__main__":
