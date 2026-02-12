@@ -1,4 +1,0 @@
-- env=AntMaze_UMaze-v3
-- seed=3
-- mode=sac_her
-- num_of_epochs=1

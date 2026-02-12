@@ -132,7 +132,7 @@ class GoalBasedRunner:
         #Train SVGG
         if self.cfg.use_goal_setter: self.goal_setter.train(self.step)
         #improve agent
-        self.agent.update(self.replay_buffer)
+        self.agent.update(self.replay_buffer,self.step)
         print("training complete")
         
         return r,tlen

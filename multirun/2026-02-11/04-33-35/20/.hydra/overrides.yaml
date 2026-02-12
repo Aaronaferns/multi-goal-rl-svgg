@@ -1,4 +1,0 @@
-- env=PointMaze_UMaze-v3
-- seed=1
-- mode=sac_her_svgg
-- num_of_epochs=1
