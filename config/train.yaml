@@ -13,10 +13,10 @@ project_name: goal_RL_robotic_control
 # this needs to be specified manually
 experiment: test
 
-num_train_steps: 1e5  #
+num_train_steps: 1e4  #
 replay_buffer_capacity: ${num_train_steps}
 num_traj: 10   #number of sampling trajectories
-num_seed_steps: 1e5   #should be same as num_train_steps
+num_seed_steps: 1e4   #should be same as num_train_steps
 
 eval_frequency: 2 #   #number of episodes after which to run eval
 num_eval_episodes: 2
